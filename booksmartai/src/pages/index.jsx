@@ -1,117 +1,26 @@
-import Layout from "./Layout.jsx";
+import React, { useEffect } from 'react';
+import { createPageUrl } from '@/utils';
 
-import Chat from "./Chat";
+// This is a temporary component to redirect to the main chat page.
+// It ensures that anyone visiting the root URL of the site is taken to the right place.
+export default function HomePage() {
+  useEffect(() => {
+    // Redirect to the main Chat page as soon as the component loads.
+    window.location.href = createPageUrl('Chat');
+  }, []);
 
-import Discover from "./Discover";
-
-import Bookings from "./Bookings";
-
-import Business from "./Business";
-
-import Demo from "./Demo";
-
-import Setup from "./Setup";
-
-import Appointments from "./Appointments";
-
-import Analytics from "./Analytics";
-
-import Settings from "./Settings";
-
-import AvailabilitySettings from "./AvailabilitySettings";
-
-import BusinessSignup from "./BusinessSignup";
-
-import AdminPanel from "./AdminPanel";
-
-import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
-
-const PAGES = {
-    
-    Chat: Chat,
-    
-    Discover: Discover,
-    
-    Bookings: Bookings,
-    
-    Business: Business,
-    
-    Demo: Demo,
-    
-    Setup: Setup,
-    
-    Appointments: Appointments,
-    
-    Analytics: Analytics,
-    
-    Settings: Settings,
-    
-    AvailabilitySettings: AvailabilitySettings,
-    
-    BusinessSignup: BusinessSignup,
-    
-    AdminPanel: AdminPanel,
-    
-}
-
-function _getCurrentPage(url) {
-    if (url.endsWith('/')) {
-        url = url.slice(0, -1);
-    }
-    let urlLastPart = url.split('/').pop();
-    if (urlLastPart.includes('?')) {
-        urlLastPart = urlLastPart.split('?')[0];
-    }
-
-    const pageName = Object.keys(PAGES).find(page => page.toLowerCase() === urlLastPart.toLowerCase());
-    return pageName || Object.keys(PAGES)[0];
-}
-
-// Create a wrapper component that uses useLocation inside the Router context
-function PagesContent() {
-    const location = useLocation();
-    const currentPage = _getCurrentPage(location.pathname);
-    
-    return (
-        <Layout currentPageName={currentPage}>
-            <Routes>            
-                
-                    <Route path="/" element={<Chat />} />
-                
-                
-                <Route path="/Chat" element={<Chat />} />
-                
-                <Route path="/Discover" element={<Discover />} />
-                
-                <Route path="/Bookings" element={<Bookings />} />
-                
-                <Route path="/Business" element={<Business />} />
-                
-                <Route path="/Demo" element={<Demo />} />
-                
-                <Route path="/Setup" element={<Setup />} />
-                
-                <Route path="/Appointments" element={<Appointments />} />
-                
-                <Route path="/Analytics" element={<Analytics />} />
-                
-                <Route path="/Settings" element={<Settings />} />
-                
-                <Route path="/AvailabilitySettings" element={<AvailabilitySettings />} />
-                
-                <Route path="/BusinessSignup" element={<BusinessSignup />} />
-                
-                <Route path="/AdminPanel" element={<AdminPanel />} />
-                
-            </Routes>
-        </Layout>
-    );
-}
-
-export default function Pages() {
-    return (
-        <Router>
-            <PagesContent />
-        </Router>
-    );
+  return (
+    <div style={{
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      height: '100vh',
+      fontFamily: 'sans-serif',
+      backgroundColor: '#f8f9fa'
+    }}>
+      <p style={{ fontSize: '1.2rem', color: '#6c757d' }}>
+        Redirecting to the AI Booking Assistant...
+      </p>
+    </div>
+  );
 }
