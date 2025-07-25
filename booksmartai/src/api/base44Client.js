@@ -1,8 +1,11 @@
-import { createClient } from '@base44/sdk';
-// import { getAccessToken } from '@base44/sdk/utils/auth-utils';
+import createClient from '@base44/sdk';
 
-// Create a client with authentication required
+const appId = process.env.NEXT_PUBLIC_BASE44_APP_ID;
+
+if (!appId) {
+  console.error("CRITICAL: NEXT_PUBLIC_BASE44_APP_ID environment variable is not set. The application will not work without it.");
+}
+
 export const base44 = createClient({
-  appId: "68827ad7cfe1bc153a3c240f", 
-  requiresAuth: true // Ensure authentication is required for all operations
+  appId: appId,
 });
