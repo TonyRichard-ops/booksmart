@@ -1,4 +1,4 @@
-import createClient from '@base44/sdk';
+import { createClient } from '@base44/sdk';
 
 const appId = process.env.NEXT_PUBLIC_BASE44_APP_ID;
 
