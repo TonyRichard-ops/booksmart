@@ -1,19 +1,56 @@
-import { base44 } from './base44Client';
+import { base44 } from './base44Client.js';
 
+// Create entity classes that use backend functions
+function createEntityClass(entityName) {
+  return class {
+    static async list(sort, limit) {
+      return base44.entityOperation(entityName, 'list', { sort, limit });
+    }
 
-export const Business = base44.entities.Business;
+    static async filter(filters, sort, limit) {
+      return base44.entityOperation(entityName, 'filter', { filters, sort, limit });
+    }
 
-export const Appointment = base44.entities.Appointment;
+    static async create(data) {
+      return base44.entityOperation(entityName, 'create', { data });
+    }
 
-export const Advertisement = base44.entities.Advertisement;
+    static async update(id, data) {
+      return base44.entityOperation(entityName, 'update', { id, data });
+    }
 
-export const BusinessHours = base44.entities.BusinessHours;
+    static async delete(id) {
+      return base44.entityOperation(entityName, 'delete', { id });
+    }
 
-export const TimeSlot = base44.entities.TimeSlot;
+    // User-specific methods
+    static async me() {
+      if (entityName !== 'User') throw new Error('me() only available on User entity');
+      return base44.authOperation('me');
+    }
 
-export const BusinessOwnerRequest = base44.entities.BusinessOwnerRequest;
+    static async updateMyUserData(userData) {
+      if (entityName !== 'User') throw new Error('updateMyUserData() only available on User entity');
+      return base44.authOperation('updateMyUserData', { userData });
+    }
 
+    static async logout() {
+      if (entityName !== 'User') throw new Error('logout() only available on User entity');
+      return base44.authOperation('logout');
+    }
 
+    static async login() {
+      if (entityName !== 'User') throw new Error('login() only available on User entity');
+      return base44.authOperation('login');
+    }
+  };
+}
 
-// auth sdk:
-export const User = base44.auth;
+// Export all your entities
+export const User = createEntityClass('User');
+export const Business = createEntityClass('Business');
+export const Appointment = createEntityClass('Appointment');
+export const Advertisement = createEntityClass('Advertisement');
+export const BusinessHours = createEntityClass('BusinessHours');
+export const TimeSlot = createEntityClass('TimeSlot');
+export const BusinessOwnerRequest = createEntityClass('BusinessOwnerRequest');
